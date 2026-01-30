@@ -1,5 +1,3 @@
-const DEFAULT_NAMES = ["ㄷㅎ", "ㅁㄱ"];
-
 function getNamesFromQuery() {
   const params = new URLSearchParams(window.location.search);
   const raw = params.get("names");
@@ -37,9 +35,13 @@ async function rollPick(names) {
   btn.disabled = false;
 }
 
-const names = getNamesFromQuery() || DEFAULT_NAMES;
+const names = getNamesFromQuery();
+
+if (!names) {
+  document.body.innerHTML = "";
+  throw new Error("No names provided");
+}
 
 document.getElementById("pickBtn").addEventListener("click", () => rollPick(names));
 
-const subEl = document.getElementById("sub");
-subEl.textContent = `현재 명단: ${names.join(", ")}`;
+document.getElementById("sub").textContent = `참여자: ${names.join(", ")}`;
